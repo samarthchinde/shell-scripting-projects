@@ -7,9 +7,10 @@
 # This script will report the aws resource useage
 ################################################
 
-Report=aws_resouce_report_document
+Report="aws_resource_report_$(date +%Y-%m-%d_%H-%M-%S).txt"
 date=$(date)
 echo "This report is of date $date."
+echo "This report is of date $date." > $Report 
 
 echo " "
 
@@ -17,7 +18,7 @@ echo " "
 echo "list of s3 buckets:-"
 s3=$(aws s3 ls)
 echo "$s3"
-echo "$s3" > Report 
+echo "$s3" >> $Report 
 
 echo " "
 
@@ -26,7 +27,7 @@ echo "list of ec2 instances:-"
 ec2=$(aws ec2 describe-instances)
 #aws ec2 describe-instances
 echo "$ec2" | jq '.Reservations[].Instances[].InstanceId'
-echo "$ec2" | jq '.Reservations[].Instances[].InstanceId' >> Report
+echo "$ec2" | jq '.Reservations[].Instances[].InstanceId' >> $Report
 
 echo " "
 
@@ -34,7 +35,7 @@ echo " "
 echo "list of lambda functions:-"
 lambda=$(aws lambda list-functions)
 echo "$lambda"
-echo "$lambda" >> Report
+echo "$lambda" >> $Report
 
 echo " "
 
@@ -43,7 +44,7 @@ echo "list of iam users:-"
 IAM=$(aws iam list-users)
 #aws iam list-users
 echo "$IAM" | jq '.Users[].UserId'
-echo "$IAM" | jq '.Users[].UserId' >> Report
+echo "$IAM" | jq '.Users[].UserId' >> $Report
 
 echo " "
 
