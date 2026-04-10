@@ -4,48 +4,50 @@
 # Author: Samarth Chinde
 # version: v1
 #
-# This script will report the aws resource useage
+# This script will report the aws resource useage.
+# ec2,s3,lambda functions,IAM users
 ################################################
+
+#validation for the aws cli configuration
+if ! aws sts get-caller-identity &>/dev/null; then
+    echo "ERROR: AWS CLI not configured. Run 'aws configure' first."
+    exit 1
+fi
 
 Report="aws_resource_report_$(date +%Y-%m-%d_%H-%M-%S).txt"
 date=$(date)
-echo "This report is of date $date." > $Report
-echo "This report is of date $date." >> $Report 
+echo "This report is of date $date." | tee $Report
 
-echo " "
+echo " " | tee -a $Report
 
 #list s3 buckets
-echo "list of s3 buckets:-" >> $Report
+echo "list of s3 buckets:-" | tee -a $Report
 s3=$(aws s3 ls)
-echo "$s3"
-echo "$s3" >> $Report 
+echo "$s3" | tee -a $Report 
 
-echo " "
+echo " " | tee -a $Report
 
 #list ec2 instances
-echo "list of ec2 instances:-" >> $Report
+echo "list of ec2 instances:-" | tee -a $Report
 ec2=$(aws ec2 describe-instances)
 #aws ec2 describe-instances
-echo "$ec2" | jq '.Reservations[].Instances[].InstanceId'
-echo "$ec2" | jq '.Reservations[].Instances[].InstanceId' >> $Report
+echo "$ec2" | jq '.Reservations[].Instances[].InstanceId' | tee -a $Report
 
-echo " "
+echo " " | tee -a $Report
 
 #list lambda functions
-echo "list of lambda functions:-" >> $Report
+echo "list of lambda functions:-" | tee -a $Report 
 lambda=$(aws lambda list-functions)
-echo "$lambda"
-echo "$lambda" >> $Report
+echo "$lambda" | tee -a $Report
 
-echo " "
+echo " " | tee -a $Report
 
 #list IAM users
-echo "list of iam users:-" >> $Report
+echo "list of iam users:-" | tee -a $Report
 IAM=$(aws iam list-users)
 #aws iam list-users
-echo "$IAM" | jq '.Users[].UserId'
-echo "$IAM" | jq '.Users[].UserId' >> $Report
+echo "$IAM" | jq '.Users[].UserId' | tee -a $Report
 
-echo " "
+echo " " | tee -a $Report
 
-echo "File is created check $Report"
+echo "File is created check $Report . In $(pwd) ."
