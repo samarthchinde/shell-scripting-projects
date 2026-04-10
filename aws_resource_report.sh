@@ -7,6 +7,7 @@
 # This script will report the aws resource useage
 ################################################
 
+Report=aws_resouce_report_document
 date=$(date)
 echo "This report is of date $date."
 
@@ -14,8 +15,9 @@ echo " "
 
 #list s3 buckets
 echo "list of s3 buckets:-"
-aws s3 ls
-aws s3 ls > aws_resouce_report_document
+s3=$(aws s3 ls)
+echo "$s3"
+echo "$s3" > Report 
 
 echo " "
 
