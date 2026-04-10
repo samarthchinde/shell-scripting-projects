@@ -23,25 +23,28 @@ echo " "
 
 #list ec2 instances
 echo "list of ec2 instances:-"
+ec2=$(aws ec2 describe-instances)
 #aws ec2 describe-instances
-aws ec2 describe-instances | jq '.Reservations[].Instances[].InstanceId'
-aws ec2 describe-instances | jq '.Reservations[].Instances[].InstanceId' >> aws_resouce_report_document
+echo "$ec2" | jq '.Reservations[].Instances[].InstanceId'
+echo "$ec2" | jq '.Reservations[].Instances[].InstanceId' >> Report
 
 echo " "
 
 #list lambda functions
 echo "list of lambda functions:-"
-aws lambda list-functions
-aws lambda list-functions >> aws_resouce_report_document
+lambda=$(aws lambda list-functions)
+echo "$lambda"
+echo "$lambda" >> Report
 
 echo " "
 
 #list IAM users
 echo "list of iam users:-"
+IAM=$(aws iam list-users)
 #aws iam list-users
-aws iam list-users | jq '.Users[].UserId'
-aws iam list-users | jq '.Users[].UserId' >> aws_resouce_report_document
+echo "$IAM" | jq '.Users[].UserId'
+echo "$IAM" | jq '.Users[].UserId' >> Report
 
 echo " "
 
-echo "File is created check aws_resouce_report_document."
+echo "File is created check $Report"
