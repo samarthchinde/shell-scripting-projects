@@ -9,13 +9,13 @@
 
 Report="aws_resource_report_$(date +%Y-%m-%d_%H-%M-%S).txt"
 date=$(date)
-echo "This report is of date $date."
-echo "This report is of date $date." > $Report 
+echo "This report is of date $date." > $Report
+echo "This report is of date $date." >> $Report 
 
 echo " "
 
 #list s3 buckets
-echo "list of s3 buckets:-"
+echo "list of s3 buckets:-" >> $Report
 s3=$(aws s3 ls)
 echo "$s3"
 echo "$s3" >> $Report 
@@ -23,7 +23,7 @@ echo "$s3" >> $Report
 echo " "
 
 #list ec2 instances
-echo "list of ec2 instances:-"
+echo "list of ec2 instances:-" >> $Report
 ec2=$(aws ec2 describe-instances)
 #aws ec2 describe-instances
 echo "$ec2" | jq '.Reservations[].Instances[].InstanceId'
@@ -32,7 +32,7 @@ echo "$ec2" | jq '.Reservations[].Instances[].InstanceId' >> $Report
 echo " "
 
 #list lambda functions
-echo "list of lambda functions:-"
+echo "list of lambda functions:-" >> $Report
 lambda=$(aws lambda list-functions)
 echo "$lambda"
 echo "$lambda" >> $Report
@@ -40,7 +40,7 @@ echo "$lambda" >> $Report
 echo " "
 
 #list IAM users
-echo "list of iam users:-"
+echo "list of iam users:-" >> $Report
 IAM=$(aws iam list-users)
 #aws iam list-users
 echo "$IAM" | jq '.Users[].UserId'
