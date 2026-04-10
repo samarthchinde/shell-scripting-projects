@@ -2,11 +2,14 @@
 
 ################################################
 # Author: Samarth Chinde
-# version: v1
+# version: v2
 #
 # This script will report the aws resource useage.
-# ec2,s3,lambda functions,IAM users
+# ec2,s3,lambda functions,IAM users.
 ################################################
+
+# exit immediately if any command fails 
+set -e
 
 #validation for the aws cli configuration
 if ! aws sts get-caller-identity &>/dev/null; then
